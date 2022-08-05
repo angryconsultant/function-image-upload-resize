@@ -97,12 +97,12 @@ namespace ImageFunctions
                         using (var output = new MemoryStream())
                         using (Image<Rgba32> image = Image.Load(input))
                         {
-                            log.LogInformation($"Code: {code}");
-                            log.LogInformation($"Blob Name: {blobName}");
-                            log.LogInformation($"Thumb Name: {thumbName}");
-                            log.LogInformation($"Thumbnail Width: {thumbnailWidth}");
-                            log.LogInformation($"Image Height: {image.Height}");
-                            log.LogInformation($"Image Width: {image.Width}");
+                            log.LogInformation("Code: {code}", code);
+                            log.LogInformation("Blob Name: {blobName}", blobName);
+                            log.LogInformation("Thumb Name: {thumbName}", thumbName);
+                            log.LogInformation("Thumbnail Width: {thumbnailWidth}", thumbnailWidth);
+                            log.LogInformation("Image Height: {image.Height}", image.Height);
+                            log.LogInformation("Image Width: {image.Width}", image.Width);
 
                             var divisor = image.Width / thumbnailWidth;
 
@@ -110,8 +110,8 @@ namespace ImageFunctions
                             
                             var height = Convert.ToInt32(Math.Round((decimal)(image.Height / divisor)));
 
-                            log.LogInformation($"New Height: {height}");
-                            log.LogInformation($"New Width: {thumbnailWidth}");
+                            log.LogInformation("New Height: {height}", height);
+                            log.LogInformation("New Width: {thumbnailWidth}", thumbnailWidth);
 
                             image.Mutate(x => x.Resize(thumbnailWidth, height));
                             image.Save(output, encoder);
@@ -121,7 +121,7 @@ namespace ImageFunctions
                     }
                     else
                     {
-                        log.LogInformation($"No encoder support for: {createdEvent.Url}");
+                        log.LogInformation("No encoder support for: {createdEvent.Url}", createdEvent.Url);
                     }
                 }
             }
