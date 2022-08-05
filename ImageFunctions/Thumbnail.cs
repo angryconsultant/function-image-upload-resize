@@ -87,12 +87,11 @@ namespace ImageFunctions
                     if (encoder != null)
                     {
                         var thumbnailWidth = Convert.ToInt32(Environment.GetEnvironmentVariable("THUMBNAIL_WIDTH"));
-                        var thumbContainerName = Environment.GetEnvironmentVariable("THUMBNAIL_CONTAINER_NAME");
                         var blobName = GetBlobNameFromUrl(createdEvent.Url);
                         var code = GetCodeFromFullFileName(blobName);
                         var thumbName = GetFilenameFromFullFileName(blobName);
                         var blobServiceClient = new BlobServiceClient(BLOB_STORAGE_CONNECTION_STRING);
-                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(thumbContainerName + "/" + code);
+                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(code);
                         blobContainerClient.CreateIfNotExists();
 
                         using (var output = new MemoryStream())
@@ -100,7 +99,6 @@ namespace ImageFunctions
                         {
                             log.LogInformation($"Code: {code}");
                             log.LogInformation($"Blob Name: {blobName}");
-                            log.LogInformation($"Thumb Container Name: {thumbContainerName}");
                             log.LogInformation($"Thumbnail Width: {thumbnailWidth}");
                             log.LogInformation($"Image Height: {image.Height}");
                             log.LogInformation($"Image Width: {image.Width}");
