@@ -141,7 +141,7 @@ namespace ImageFunctions
 
         private static string CreateThumbnailName(string blobName)
         {
-            return "thumb_" + blobName;
+            return "myuploadthumb_" + blobName;
         }
 
         public static string GetCodeFromFullFileName(string fullfilename)
