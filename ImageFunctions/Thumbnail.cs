@@ -38,6 +38,13 @@ namespace ImageFunctions
             return blobClient.Name;
         }
 
+        private static string GetBlobContainerNameFromUrl(string bloblUrl)
+        {
+            var uri = new Uri(bloblUrl);
+            var blobClient = new BlobClient(uri);
+            return blobClient.BlobContainerName;
+        }
+
         private static IImageEncoder GetEncoder(string extension)
         {
             IImageEncoder encoder = null;
@@ -88,10 +95,10 @@ namespace ImageFunctions
                     {
                         var thumbnailWidth = Convert.ToInt32(Environment.GetEnvironmentVariable("THUMBNAIL_WIDTH"));
                         var blobName = GetBlobNameFromUrl(createdEvent.Url);
-                        var code = GetCodeFromFullFileName(blobName);
+                        var containerName = GetBlobContainerNameFromUrl(createdEvent.Url);
                         var thumbName = GetFilenameFromFullFileName(blobName);
                         var blobServiceClient = new BlobServiceClient(BLOB_STORAGE_CONNECTION_STRING);
-                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(code);
+                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
                         blobContainerClient.CreateIfNotExists();
 
                         using (var output = new MemoryStream())
