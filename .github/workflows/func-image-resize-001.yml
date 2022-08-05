@@ -4,7 +4,7 @@ on:
     branches:
     - master
 env:
-  AZURE_FUNCTIONAPP_NAME: func-resize-images
+  AZURE_FUNCTIONAPP_NAME: func-image-resize-001
   AZURE_FUNCTIONAPP_PACKAGE_PATH: ImageFunctions/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 3.1.x
@@ -29,5 +29,5 @@ jobs:
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        publish-profile: ${{ secrets.func_resize_images_731f }}
+        publish-profile: ${{ secrets.func_image_resize_001_21b1 }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
