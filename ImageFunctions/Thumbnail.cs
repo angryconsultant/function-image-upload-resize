@@ -96,7 +96,7 @@ namespace ImageFunctions
                         var thumbnailWidth = Convert.ToInt32(Environment.GetEnvironmentVariable("THUMBNAIL_WIDTH"));
                         var blobName = GetBlobNameFromUrl(createdEvent.Url);
                         var containerName = GetBlobContainerNameFromUrl(createdEvent.Url);
-                        var thumbName = GetFilenameFromFullFileName(blobName);
+                        var thumbName = CreateThumbnailName(blobName);
                         var blobServiceClient = new BlobServiceClient(BLOB_STORAGE_CONNECTION_STRING);
                         var blobContainerClient = blobServiceClient.GetBlobContainerClient(containerName);
                         blobContainerClient.CreateIfNotExists();
@@ -104,7 +104,7 @@ namespace ImageFunctions
                         using (var output = new MemoryStream())
                         using (Image<Rgba32> image = Image.Load(input))
                         {
-                            log.LogInformation("Code: {code}", code);
+                            log.LogInformation("containerName: {code}", containerName);
                             log.LogInformation("Blob Name: {blobName}", blobName);
                             log.LogInformation("Thumb Name: {thumbName}", thumbName);
                             log.LogInformation("Thumbnail Width: {thumbnailWidth}", thumbnailWidth);
@@ -137,6 +137,11 @@ namespace ImageFunctions
                 log.LogInformation(ex.Message);
                 throw;
             }
+        }
+
+        private static string CreateThumbnailName(string blobName)
+        {
+            return "thumb_" + blobName;
         }
 
         public static string GetCodeFromFullFileName(string fullfilename)
