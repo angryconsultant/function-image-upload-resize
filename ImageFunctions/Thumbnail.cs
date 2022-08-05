@@ -96,7 +96,7 @@ namespace ImageFunctions
                         using (Image<Rgba32> image = Image.Load(input))
                         {
                             log.LogInformation($"Image Height: {image.Height}");
-                            log.LogInformation($"Image Height: {image.Width}");
+                            log.LogInformation($"Image Width: {image.Width}");
 
                             var divisor = image.Width / thumbnailWidth;
 
@@ -104,7 +104,8 @@ namespace ImageFunctions
                             
                             var height = Convert.ToInt32(Math.Round((decimal)(image.Height / divisor)));
 
-                            log.LogInformation($"New height: {height}");
+                            log.LogInformation($"New Height: {height}");
+                            log.LogInformation($"New Width: {thumbnailWidth}");
 
                             image.Mutate(x => x.Resize(thumbnailWidth, height));
                             image.Save(output, encoder);
