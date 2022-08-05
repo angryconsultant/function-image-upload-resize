@@ -99,6 +99,7 @@ namespace ImageFunctions
                         {
                             log.LogInformation($"Code: {code}");
                             log.LogInformation($"Blob Name: {blobName}");
+                            log.LogInformation($"Thumb Name: {thumbName}");
                             log.LogInformation($"Thumbnail Width: {thumbnailWidth}");
                             log.LogInformation($"Image Height: {image.Height}");
                             log.LogInformation($"Image Width: {image.Width}");
