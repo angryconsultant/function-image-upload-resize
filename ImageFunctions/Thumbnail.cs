@@ -95,6 +95,8 @@ namespace ImageFunctions
                         using (var output = new MemoryStream())
                         using (Image<Rgba32> image = Image.Load(input))
                         {
+                            log.LogInformation($"Thumb Container Name: {thumbContainerName}");
+                            log.LogInformation($"Thumbnail Width: {thumbnailWidth}");
                             log.LogInformation($"Image Height: {image.Height}");
                             log.LogInformation($"Image Width: {image.Width}");
 
