@@ -88,13 +88,18 @@ namespace ImageFunctions
                     {
                         var thumbnailWidth = Convert.ToInt32(Environment.GetEnvironmentVariable("THUMBNAIL_WIDTH"));
                         var thumbContainerName = Environment.GetEnvironmentVariable("THUMBNAIL_CONTAINER_NAME");
-                        var blobServiceClient = new BlobServiceClient(BLOB_STORAGE_CONNECTION_STRING);
-                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(thumbContainerName);
                         var blobName = GetBlobNameFromUrl(createdEvent.Url);
+                        var code = GetCodeFromFullFileName(blobName);
+                        var thumbName = GetFilenameFromFullFileName(blobName);
+                        var blobServiceClient = new BlobServiceClient(BLOB_STORAGE_CONNECTION_STRING);
+                        var blobContainerClient = blobServiceClient.GetBlobContainerClient(thumbContainerName + "/" + code);
+                        blobContainerClient.CreateIfNotExists();
 
                         using (var output = new MemoryStream())
                         using (Image<Rgba32> image = Image.Load(input))
                         {
+                            log.LogInformation($"Code: {code}");
+                            log.LogInformation($"Blob Name: {blobName}");
                             log.LogInformation($"Thumb Container Name: {thumbContainerName}");
                             log.LogInformation($"Thumbnail Width: {thumbnailWidth}");
                             log.LogInformation($"Image Height: {image.Height}");
@@ -112,7 +117,7 @@ namespace ImageFunctions
                             image.Mutate(x => x.Resize(thumbnailWidth, height));
                             image.Save(output, encoder);
                             output.Position = 0;
-                            await blobContainerClient.UploadBlobAsync(blobName, output);
+                            await blobContainerClient.UploadBlobAsync(thumbName, output);
                         }
                     }
                     else
@@ -127,5 +132,28 @@ namespace ImageFunctions
                 throw;
             }
         }
+
+        public static string GetCodeFromFullFileName(string fullfilename)
+        {
+            if (fullfilename.Contains("_"))
+            {
+                var _code = fullfilename.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                return _code[0];
+            }
+
+            throw new ArgumentException("Fullfilename does not fullfil requirements");
+        }
+
+        public static string GetFilenameFromFullFileName(string fullfilename)
+        {
+            if (fullfilename.Contains("_"))
+            {
+                var _code = fullfilename.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
+                return _code[1];
+            }
+
+            throw new ArgumentException("Fullfilename does not fullfil requirements");
+        }
+
     }
 }
