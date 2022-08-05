@@ -136,8 +136,8 @@ namespace ImageFunctions
         {
             if (fullfilename.Contains("_"))
             {
-                var _code = fullfilename.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                return _code[0];
+                int indexSplit = fullfilename.IndexOf('_');
+                return fullfilename.Substring(0, indexSplit);
             }
 
             throw new ArgumentException("Fullfilename does not fullfil requirements");
@@ -147,8 +147,8 @@ namespace ImageFunctions
         {
             if (fullfilename.Contains("_"))
             {
-                var _code = fullfilename.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
-                return _code[1];
+                int indexSplit = fullfilename.IndexOf('_');
+                return fullfilename.Substring(indexSplit + 1);
             }
 
             throw new ArgumentException("Fullfilename does not fullfil requirements");
